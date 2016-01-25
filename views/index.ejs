@@ -29,7 +29,7 @@
       <nav class="navbar navbar-right"  ng-controller="NavCtrl">
         <ul class="nav navbar-nav">
           <li ng-show="isLoggedIn()"><a href="/#/user/{{currentUser()}}"><span class="glyphicon glyphicon-user"></span> {{ currentUser() }}</a></li>
-          <li ng-show="isLoggedIn()"><a href="/#/home"><span class="glyphicon glyphicon-plus-sign"></span> Home</a></li>
+          <li ng-show="isLoggedIn()"><a href="/#/home"><i class="fa fa-beer"></i> Home</a></li>
           <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()"><span class="glyphicon glyphicon-tree-conifer"></span> Log Out</a></li>
           <li ng-hide="isLoggedIn()"><a href="/#/login"><span class="glyphicon glyphicon-user"></span> Log In</a></li>
           <li ng-hide="isLoggedIn()"><a href="/#/register"><span class="glyphicon glyphicon-cog"></span> Register</a></li>
@@ -46,6 +46,9 @@
         </div>
       </div>
   
+    </div>
+    <div id="footer">
+      <p>Powered by the Yelp API.</p>
     </div>
   </body>
 </html>
