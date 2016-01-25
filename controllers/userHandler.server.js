@@ -38,7 +38,7 @@ function UserHandler(){
     }
     
     this.getByName = function(req, res, next, username) {
-        var query = User.findOne({username: username});
+        var query = User.findOne({username: username}, {hash: 0, salt: 0});
         
         query.exec(function(err,user){
           if(err){return next(err);}
@@ -47,6 +47,10 @@ function UserHandler(){
           req.user = user;
           return next();
         });
+    }
+    
+    this.getUser = function(req, res, next){
+      res.json(req.user);
     }
     
     this.getUserBars = function(req, res, next){
@@ -106,6 +110,22 @@ function UserHandler(){
         
         cb(users);
       })
+    }
+    
+    this.setProfileInfo = function(req,res,next){
+      if(req.payload.username !== req.user.username){return next(new Error('Cannot change profiles other than yours.'));}
+      
+      req.user.name = req.body.name;
+      req.user.image_url = req.body.image_url;
+      req.user.motto = req.body.motto;
+      req.user.location = req.body.location;
+      
+      req.user.save(function(err,user){
+        if(err){return next(err)};
+        
+        res.json(req.user);
+      })
+      
     }
     
 }

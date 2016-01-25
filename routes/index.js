@@ -20,7 +20,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.get('/yelp/:location', yelpHandler.getBars);
+router.get('/:user/', userHandler.getUser);
+router.put('/:user/profile', auth, userHandler.setProfileInfo);
 router.get('/:user/bars', userHandler.getUserBars);
 router.put('/:user/bars/add/:bar', auth, userHandler.addBar);
 router.delete('/:user/bars/remove/:bar', auth, userHandler.removeBar);

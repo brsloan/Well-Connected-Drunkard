@@ -20,6 +20,7 @@
     <script src="/app/shared/auth/authController.js"></script>
     <script src="/app/components/home/homeService.js"></script>
     <script src="/app/components/home/homeController.js"></script>
+    <script src="/app/components/profile/profileController.js"></script>
   </head>
 
   <body ng-app="nightlifeCoordinator">
@@ -27,7 +28,7 @@
 
       <nav class="navbar navbar-right"  ng-controller="NavCtrl">
         <ul class="nav navbar-nav">
-          <li ng-show="isLoggedIn()"><a><span class="glyphicon glyphicon-user"></span> {{ currentUser() }}</a></li>
+          <li ng-show="isLoggedIn()"><a href="/#/user/{{currentUser()}}"><span class="glyphicon glyphicon-user"></span> {{ currentUser() }}</a></li>
           <li ng-show="isLoggedIn()"><a href="/#/home"><span class="glyphicon glyphicon-plus-sign"></span> Home</a></li>
           <li ng-show="isLoggedIn()"><a href="" ng-click="logOut()"><span class="glyphicon glyphicon-tree-conifer"></span> Log Out</a></li>
           <li ng-hide="isLoggedIn()"><a href="/#/login"><span class="glyphicon glyphicon-user"></span> Log In</a></li>

@@ -7,7 +7,10 @@ var UserSchema = new mongoose.Schema({
   hash: String,
   salt: String,
   bars: [{ type: String, unique: true }],
-  location: String
+  location: String,
+  motto: String,
+  name: String,
+  image_url: String
 });
 
 UserSchema.methods.setPassword = function(password){

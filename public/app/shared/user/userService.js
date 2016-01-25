@@ -11,6 +11,8 @@ angular.module('nightlifeCoordinator')
        user.getLocation = getLocation;
        user.setLocation = setLocation;
        user.getBarGoers = getBarGoers;
+       user.getUser = getUser;
+       user.saveProfileInfo = saveProfileInfo;
        
        return user;
        
@@ -60,5 +62,19 @@ angular.module('nightlifeCoordinator')
                cb(data);
            });
        }
+        
+        function getUser(username){
+            return $http.get('/' + username).then(function(res){
+                return res.data;
+            });
+        }
+        
+        function saveProfileInfo(user){
+            $http.put('/' + user.username + '/profile', JSON.stringify(user), {
+                headers: {Authorization: 'Bearer ' + auth.getToken()}
+            }).success(function(data){
+                
+            })
+        }
         
     }]);

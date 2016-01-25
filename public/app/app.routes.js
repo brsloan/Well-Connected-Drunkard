@@ -9,6 +9,16 @@ angular.module('nightlifeCoordinator')
             templateUrl: 'app/components/home/homeView.html',
             controller: 'MainCtrl'
         })
+          .state('profile',{
+            url: '/user/{username}',
+            templateUrl: 'app/components/profile/profileView.html',
+            controller: 'ProfileCtrl',
+            resolve: {
+              thisUser: ['$stateParams', 'user', function($stateParams, user){
+                return user.getUser($stateParams.username);
+              }]
+            }
+          })
           .state('login',{
             url: '/login',
             templateUrl: '/app/components/login/loginView.html',
