@@ -52,6 +52,14 @@
   color: #ccc;
 }
 
+.profile-image img{
+  margin: auto;
+}
+
+.top-profile-field h2{
+  margin-top: 0;
+}
+
 @media only screen and (max-width : 768px) {
 
 .nav li {
