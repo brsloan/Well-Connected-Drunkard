@@ -1,0 +1,52 @@
+var path = process.cwd();
+var UserHandler = require(path + '/controllers/userHandler.server.js');
+var userHandler = new UserHandler();
+
+var YelpHandler = require(path + '/controllers/yelpHandler.server.js');
+var yelpHandler = new YelpHandler();
+
+function barHandler(){
+    
+    this.getBarsWithUserData = function(req, res, next){
+        var bars = [];
+        var barGoers = [];
+        
+        yelpHandler.getBarsServer(req.params.location, function(yelpBars){
+            bars = JSON.parse(yelpBars).businesses;
+            
+            getBarGoers(); 
+        })
+        
+        function getBarGoers(){
+           userHandler.getBarGoersServer(function(newBarGoers){
+                barGoers = newBarGoers;
+                labelBars();
+            });  
+        }
+        
+        function labelBars(){
+            for(var i=0;i<barGoers.length;i++){
+                for(var k=0;k<barGoers[i].bars.length;k++){
+                    labelMatchingBar(barGoers[i].username, barGoers[i].bars[k]);
+                }
+            }
+            res.json(bars);
+        }
+        
+        function labelMatchingBar(barGoer, barId){
+            for(var i=0;i<bars.length;i++){
+                if(!bars[i].bar_goers){
+                    bars[i].bar_goers = [];
+                }
+                        
+                if(bars[i].id === barId){
+                    bars[i].bar_goers.push(barGoer);
+                }
+            }
+        }
+        
+    }
+    
+}
+
+module.exports = barHandler;

@@ -1,0 +1,56 @@
+.bar-image {
+  float: left;
+  margin-right: 12px;
+}
+
+.bar-text{
+  
+}
+
+.bar-block{
+  position: relative;
+}
+
+.clearer {
+  clear: both;
+}
+
+.go-btn{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.search-bars-btn{
+  float: right;
+}
+
+.subtitle{
+  text-align: right;
+  margin-top: 0;
+  margin-bottom: 0;
+  display: none;
+}
+
+.drinkers_number .bar_goers_list{
+  display: none;
+}
+
+.drinkers_number:hover .bar_goers_list{
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ddd;
+  padding: 3px;
+  width: 100%;
+}
+
+@media only screen and (max-width : 768px) {
+
+.nav li {
+  text-align: center;
+  font-size: 16pt;
+}
+
+}

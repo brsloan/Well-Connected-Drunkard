@@ -1,0 +1,37 @@
+
+<form ng-submit="getBars()" >
+  
+  <div class="form-group">
+    
+    <button type="submit" class="btn btn-primary search-bars-btn"><span class="glyphicon glyphicon-ok"></span> Get Bars</button>
+    <div style="overflow: hidden; padding-right: .5em;">
+      <input type="text" class="form-control search-bars" placeholder="Where will you be drinking tonight?" ng-model="formData.location" required></input>
+    </div>
+  </div>
+  
+  <div ng-repeat="bar in bars">
+    <div class="bar-block">
+      <h2><a href="{{bar.url}}">{{bar.name}}</a></h2>
+      <img ng-src="{{bar.rating_img_url}}" alt="rating of {{bar.rating}}"></img>
+      <div>
+        <img ng-src="{{bar.image_url}}" class="bar-image"></img>
+       
+        <h3 class="bar-text">{{bar.snippet_text}}</h3>
+        <div class="clearer"></div>
+        <div ng-show="isLoggedIn()" class="go-btn">
+          <div class="btn btn-default drinkers_number">
+            {{bar.bar_goers.length}} drinking
+            <div class="bar_goers_list">
+              <div ng-repeat="n in bar.bar_goers">
+                <p><a href="http:www.google.com">{{n}}</a></p>
+              </div>
+            </div>
+          </div>
+          <div ng-click="goToBar(bar.id)" ng-hide="bar.userGoing" class="btn btn-info ">Go</div>
+          <div ng-click="cancelBar(bar.id)" ng-show="bar.userGoing" class="btn btn-danger ">Going!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</form>      
