@@ -7,18 +7,24 @@ var yelpHandler = new YelpHandler();
 
 function barHandler(){
     
-    this.getBarsWithUserData = function(req, res, next){
+    this.getBarsWithUserData = getBarsWithUserData;
+    
+    function getBarsWithUserData(req, res, next){
         var bars = [];
         var barGoers = [];
         
-        yelpHandler.getBarsServer(req.params.location, function(yelpBars){
-            bars = JSON.parse(yelpBars).businesses;
-            
-            getBarGoers(); 
-        })
+        getBars();
+        
+        function getBars(){
+            yelpHandler.getBars(req.params.location, function(yelpBars){
+                bars = JSON.parse(yelpBars).businesses;
+                
+                getBarGoers(); 
+            });
+        }
         
         function getBarGoers(){
-           userHandler.getBarGoersServer(function(newBarGoers){
+           userHandler.getBarGoers(function(newBarGoers){
                 barGoers = newBarGoers;
                 labelBars();
             });  

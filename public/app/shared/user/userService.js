@@ -10,7 +10,6 @@ angular.module('nightlifeCoordinator')
        user.removeBar = removeBar;
        user.getLocation = getLocation;
        user.setLocation = setLocation;
-       user.getBarGoers = getBarGoers;
        user.getUser = getUser;
        user.saveProfileInfo = saveProfileInfo;
        
@@ -54,12 +53,6 @@ angular.module('nightlifeCoordinator')
                headers: {Authorization: 'Bearer ' + auth.getToken()}
            }).success(function(data){
                user.location = location;
-           });
-       }
-       
-       function getBarGoers(cb){
-           $http.get('/users').succes(function(data){
-               cb(data);
            });
        }
         

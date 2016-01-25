@@ -3,8 +3,38 @@ var passport = require('passport');
 var User = mongoose.model('User');
 
 function UserHandler(){
+    //API Param Functions
+    this.getByName = getUserByName;
     
-    this.register = function(req, res, next){
+    //API Functions
+    this.register = register;
+    this.logIn = login;
+    this.getUser = getUser;
+    this.getUserBars = getUserBars;
+    this.addBar= addBar;
+    this.removeBar = removeBar;
+    this.getLocation = getLocation;
+    this.setLocation = setLocation;
+    this.setProfileInfo = setProfileInfo;
+    
+    //Controller Functions
+    this.getBarGoers = getBarGoers;
+    
+    
+    function getUserByName(req, res, next, username) {
+        var query = User.findOne({username: username}, {hash: 0, salt: 0});
+        
+        query.exec(function(err,user){
+          if(err){return next(err);}
+          if(!user){return next(new Error('can\'t find user'));}
+          
+          req.user = user;
+          return next();
+        });
+    }
+    
+    
+    function register(req, res, next){
       if(!req.body.username || !req.body.password){
         return res.status(400).json({message: 'Please fill out all fields'});
       }
@@ -21,7 +51,7 @@ function UserHandler(){
     
     }
     
-    this.logIn = function(req,res,next){
+    function login(req, res, next){
       if(!req.body.username || !req.body.password){
         return res.status(400).json({message: 'Please fill out all fields'});
       }
@@ -37,27 +67,15 @@ function UserHandler(){
       })(req,res,next);
     }
     
-    this.getByName = function(req, res, next, username) {
-        var query = User.findOne({username: username}, {hash: 0, salt: 0});
-        
-        query.exec(function(err,user){
-          if(err){return next(err);}
-          if(!user){return next(new Error('can\'t find user'));}
-          
-          req.user = user;
-          return next();
-        });
-    }
-    
-    this.getUser = function(req, res, next){
+    function getUser(req, res, next){
       res.json(req.user);
     }
     
-    this.getUserBars = function(req, res, next){
+    function getUserBars(req, res, next){
         res.json(req.user.bars);
-    };
+    }
     
-    this.addBar= function(req,res,next){
+    function addBar(req, res, next){
       if(req.user.bars.indexOf(req.params.bar) !== -1){
         return next(new Error('Can\'t add two bars with same id'));
       }
@@ -70,7 +88,7 @@ function UserHandler(){
       });
     }
     
-    this.removeBar = function(req, res, next){
+    function removeBar(req, res, next){
       var barIndex = req.user.bars.indexOf(req.params.bar);
       if(barIndex === -1){return next(new Error('User does not have that bar.'));}
       
@@ -82,37 +100,21 @@ function UserHandler(){
       });
     }
     
-    this.getLocation = function(req,res,next){
+    function getLocation(req,res,next){
       res.json(req.user.location);
     }
     
-    this.setLocation = function(req, res, next){
+    function setLocation(req, res, next){
       req.user.location = req.params.location;
       
       req.user.save(function(err,user){
-        if(err){return next(err)};
-        
-        res.json(user.location);
-      })
-    }
-    
-    this.getBarGoers = function(req,res,next){
-      User.find({bars: {$gt: 0}}, 'username bars', function(err, users){
         if(err){return next(err);}
         
-        res.json(users);
-      })
+        res.json(user.location);
+      });
     }
     
-    this.getBarGoersServer = function(cb){
-      User.find({bars: {$gt: 0}}, 'username bars', function(err, users){
-        if(err){return err;}
-        
-        cb(users);
-      })
-    }
-    
-    this.setProfileInfo = function(req,res,next){
+    function setProfileInfo(req, res, next){
       if(req.payload.username !== req.user.username){return next(new Error('Cannot change profiles other than yours.'));}
       
       req.user.name = req.body.name;
@@ -121,11 +123,20 @@ function UserHandler(){
       req.user.location = req.body.location;
       
       req.user.save(function(err,user){
-        if(err){return next(err)};
+        if(err){return next(err);}
         
         res.json(req.user);
-      })
+      });
       
+    }
+    
+    
+    function getBarGoers(cb){
+      User.find({bars: {$gt: 0}}, 'username bars', function(err, users){
+        if(err){return err;}
+        
+        cb(users);
+      });
     }
     
 }
