@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
-require('./server/models/Users');
+require('./server/components/user/UsersModel');
 var dotenv = require('dotenv');
 dotenv.load();
 
@@ -14,12 +14,14 @@ require('./server/config/passport');
 
 mongoose.connect(process.env.MONGO_URI);
 
-var routes = require('./server/routes/index');
+var indexRoutes = require('./server/components/index/indexRoutes.server.js');
+var userRoutes = require('./server/components/user/userRoutes.server.js');
+var barRoutes = require('./server/components/bar/barRoutes.server.js');
 
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, '/server/views'));
+app.set('views', path.join(__dirname, '/server/components/index'));
 app.set('view engine', 'ejs');
 
 app.use(favicon(path.join(__dirname, 'client', 'favicon.ico')));
@@ -29,7 +31,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client')));
 
-app.use('/', routes);
+app.use('/', indexRoutes);
+app.use('/', userRoutes);
+app.use('/', barRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
