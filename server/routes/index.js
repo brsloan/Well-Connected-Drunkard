@@ -4,9 +4,9 @@ var jwt = require('express-jwt');
 var auth = jwt({secret: process.env.JWT_SECRET, userProperty: 'payload'});
 
 var path = process.cwd();
-var UserHandler = require(path + '/controllers/userHandler.server.js');
+var UserHandler = require(path + '/server/controllers/userHandler.server.js');
 var userHandler = new UserHandler();
-var BarHandler = require(path + '/controllers/barHandler.server.js');
+var BarHandler = require(path + '/server/controllers/barHandler.server.js');
 var barHandler = new BarHandler();
 
 router.param('user', userHandler.getByName);

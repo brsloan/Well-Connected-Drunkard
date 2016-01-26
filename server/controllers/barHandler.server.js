@@ -1,8 +1,8 @@
 var path = process.cwd();
-var UserHandler = require(path + '/controllers/userHandler.server.js');
+var UserHandler = require(path + '/server/controllers/userHandler.server.js');
 var userHandler = new UserHandler();
 
-var YelpHandler = require(path + '/controllers/yelpHandler.server.js');
+var YelpHandler = require(path + '/server/controllers/yelpHandler.server.js');
 var yelpHandler = new YelpHandler();
 
 function barHandler(){
